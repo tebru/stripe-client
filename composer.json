@@ -1,0 +1,22 @@
+{
+    "name": "tebru/retrofit-stripe-client",
+    "description": "A stripe api client built on retrofit-php",
+    "require": {
+        "tebru/retrofit-php": "^2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nate Brunette",
+            "email": "n@tebru.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tebru\\Stripe\\": "src/"
+        }
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^6.1"
+    }
+}
