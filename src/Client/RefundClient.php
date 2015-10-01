@@ -7,29 +7,23 @@
 namespace Tebru\Stripe\Client;
 
 use Tebru\Retrofit\Annotation as Rest;
-use Tebru\Stripe\Response\RefundListResponse;
-use Tebru\Stripe\Response\RefundResponse;
+use Tebru\Stripe\Model\Refund;
+use Tebru\Stripe\Model\Refunds;
 
 /**
  * Interface RefundClient
  *
+ * Refund objects allow you to refund a charge that has previously been created but not
+ * yet refunded. Funds will be refunded to the credit or debit card that was originally
+ * charged. The fees you were originally charged are also refunded.
+ *
+ * @link https://stripe.com/docs/api#refunds
  * @author Nate Brunette <n@tebru.net>
  *
- * @Rest\Returns("Tebru\Stripe\Response\RefundResponse")
+ * @Rest\Returns("Tebru\Stripe\Model\Refund")
  */
 interface RefundClient
 {
-    /**
-     * Retrieves the details of an existing refund.
-     *
-     * @link https://stripe.com/docs/api/php#retrieve_refund
-     * @param $refundId
-     * @return RefundResponse
-     *
-     * @Rest\GET("/refunds/{refundId}")
-     */
-    public function get($refundId);
-
     /**
      * When you create a new refund, you must specify a charge to create it on.
      *
@@ -46,13 +40,25 @@ interface RefundClient
      *
      * @link https://stripe.com/docs/api/curl#create_refund
      * @param string $chargeId
-     * @param array $createRefundRequest
-     * @return RefundResponse
+     * @param Refund $refund
+     * @return Refund
      *
      * @Rest\POST("/charges/{chargeId}/refunds")
-     * @Rest\Body("createRefundRequest")
+     * @Rest\Body("refund")
+     * @Rest\Serializer\SerializationContext(groups={"RefundCreate"})
      */
-    public function create($chargeId, array $createRefundRequest);
+    public function create($chargeId, Refund $refund = null);
+
+    /**
+     * Retrieves the details of an existing refund.
+     *
+     * @link https://stripe.com/docs/api/php#retrieve_refund
+     * @param $refundId
+     * @return Refund
+     *
+     * @Rest\GET("/refunds/{refundId}")
+     */
+    public function get($refundId);
 
     /**
      * Updates the specified refund by setting the values of the parameters passed. Any
@@ -62,13 +68,14 @@ interface RefundClient
      *
      * @link https://stripe.com/docs/api/curl#update_refund
      * @param string $refundId
-     * @param array $updateRefundRequest
-     * @return RefundResponse
+     * @param Refund $refund
+     * @return Refund
      *
      * @Rest\POST("/refunds/{refundId}")
-     * @Rest\Body("updateRefundRequest")
+     * @Rest\Body("refund")
+     * @Rest\Serializer\SerializationContext(groups={"RefundUpdate"})
      */
-    public function update($refundId, array $updateRefundRequest);
+    public function update($refundId, Refund $refund = null);
 
     /**
      * Returns a list of all refunds you’ve previously created. The refunds are returned
@@ -77,11 +84,11 @@ interface RefundClient
      *
      * @link https://stripe.com/docs/api/curl#list_refunds
      * @param array $listRefundsRequest
-     * @return RefundListResponse
+     * @return Refunds
      *
      * @Rest\GET("/refunds")
      * @Rest\QueryMap("listRefundsRequest")
-     * @Rest\Returns("Tebru\Stripe\Response\RefundListResponse")
+     * @Rest\Returns("Tebru\Stripe\Model\Refunds")
      */
-    public function listAll(array $listRefundsRequest);
+    public function listAll(array $listRefundsRequest = []);
 }

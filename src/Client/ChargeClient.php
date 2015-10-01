@@ -7,17 +7,38 @@
 namespace Tebru\Stripe\Client;
 
 use Tebru\Retrofit\Annotation as Rest;
-use Tebru\Stripe\Response\ChargeResponse;
+use Tebru\Stripe\Model\Charge;
+use Tebru\Stripe\Model\Charges;
 
 /**
  * Interface ChargeClient
  *
+ * To charge a credit or a debit card, you create a charge object. You can retrieve and refund
+ * individual charges as well as list all charges. Charges are identified by a unique random ID.
+ *
+ * @link https://stripe.com/docs/api#charges
  * @author Nate Brunette <n@tebru.net>
  *
- * @Rest\Returns("Tebru\Stripe\Response\ChargeResponse")
+ * @Rest\Returns("Tebru\Stripe\Model\Charge")
  */
 interface ChargeClient
 {
+    /**
+     * To charge a credit card, you create a charge object. If your API key is in test mode,
+     * the supplied payment source (e.g., card or Bitcoin receiver) won't actually be charged,
+     * though everything else will occur as if in live mode. (Stripe assumes that the charge
+     * would have completed successfully).
+     *
+     * @link https://stripe.com/docs/api/curl#create_charge
+     * @param Charge $charge
+     * @return Charge
+     *
+     * @Rest\POST("/charges")
+     * @Rest\Body("charge")
+     * @Rest\Serializer\SerializationContext(groups={"ChargeCreate", "Shipping", "Source"})
+     */
+    public function create(Charge $charge);
+
     /**
      * Retrieves the details of a charge that has previously been created. Supply the unique
      * charge ID that was returned from your previous request, and Stripe will return the
@@ -26,26 +47,11 @@ interface ChargeClient
      *
      * @link https://stripe.com/docs/api/curl#retrieve_charge
      * @param string $chargeId
-     * @return ChargeResponse
+     * @return Charge
      *
      * @Rest\GET("/charges/{chargeId}")
      */
     public function get($chargeId);
-
-    /**
-     * To charge a credit card, you create a charge object. If your API key is in test mode,
-     * the supplied payment source (e.g., card or Bitcoin receiver) won't actually be charged,
-     * though everything else will occur as if in live mode. (Stripe assumes that the charge
-     * would have completed successfully).
-     *
-     * @link https://stripe.com/docs/api/curl#create_charge
-     * @param array $createChargeRequest
-     * @return ChargeResponse
-     *
-     * @Rest\POST("/charges")
-     * @Rest\Body("createChargeRequest")
-     */
-    public function create(array $createChargeRequest);
 
     /**
      * Updates the specified charge by setting the values of the parameters passed. Any
@@ -56,13 +62,14 @@ interface ChargeClient
      *
      * @link https://stripe.com/docs/api/curl#update_charge
      * @param string $chargeId
-     * @param array $updateChargeRequest
-     * @return ChargeResponse
+     * @param Charge $charge
+     * @return Charge
      *
      * @Rest\POST("/charges/{chargeId}")
-     * @Rest\Body("updateChargeRequest")
+     * @Rest\Body("charge")
+     * @Rest\Serializer\SerializationContext(groups={"ChargeUpdate", "Shipping"})
      */
-    public function update($chargeId, array $updateChargeRequest);
+    public function update($chargeId, Charge $charge = null);
 
     /**
      * Capture the payment of an existing, uncaptured, charge. This is the second half of
@@ -75,13 +82,14 @@ interface ChargeClient
      *
      * @link https://stripe.com/docs/api/curl#capture_charge
      * @param string $chargeId
-     * @param array $captureChargeRequest
-     * @return ChargeResponse
+     * @param Charge $charge
+     * @return Charge
      *
      * @Rest\POST("/charges/{chargeId}/capture")
-     * @Rest\Body("captureChargeRequest")
+     * @Rest\Body("charge")
+     * @Rest\Serializer\SerializationContext(groups={"ChargeCapture"})
      */
-    public function capture($chargeId, array $captureChargeRequest);
+    public function capture($chargeId, Charge $charge = null);
 
     /**
      * Returns a list of charges you’ve previously created. The charges are returned in
@@ -89,11 +97,11 @@ interface ChargeClient
      *
      * @link https://stripe.com/docs/api/php#list_charges
      * @param array $listChargeRequest
-     * @return ChargeResponse
+     * @return Charges
      *
      * @Rest\GET("/charges")
      * @Rest\QueryMap("listChargeRequest")
-     * @Rest\Returns("Tebru\Stripe\Response\ChargeListResponse")
+     * @Rest\Returns("Tebru\Stripe\Model\Charges")
      */
     public function listAll(array $listChargeRequest = []);
 }
