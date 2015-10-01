@@ -1,5 +1,5 @@
 {
-    "name": "tebru/retrofit-stripe-client",
+    "name": "tebru/stripe-sdk",
     "description": "A stripe api client built on retrofit-php",
     "require": {
         "tebru/retrofit-php": "dev-master",
