@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b9003b788d728c4befc3f926d770fd8b",
-    "content-hash": "c0900122c85244d24a6af24ee9dcc2a8",
+    "hash": "eee1827b39edfe7c95744882fbc81df2",
+    "content-hash": "01e9d4b5a1f4d460ac223bf1a09006b5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -848,7 +848,7 @@
         },
         {
             "name": "tebru/retrofit-php",
-            "version": "dev-master",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tebru/retrofit-php.git",
@@ -1226,9 +1226,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "tebru/retrofit-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

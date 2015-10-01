@@ -2,7 +2,7 @@
     "name": "tebru/stripe-sdk",
     "description": "A stripe api client built on retrofit-php",
     "require": {
-        "tebru/retrofit-php": "dev-master",
+        "tebru/retrofit-php": "~2.0",
         "tebru/assert": "^0.2.0"
     },
     "license": "MIT",
