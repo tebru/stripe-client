@@ -20,7 +20,7 @@ trait RefundApplicationFee
     /**
      * @var boolean
      *
-     * @Type("string")
+     * @Type("boolean")
      * @Groups({"RefundCreate"})
      */
     private $refundApplicationFee = false;

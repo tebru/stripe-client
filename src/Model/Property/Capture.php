@@ -6,7 +6,6 @@
 
 namespace Tebru\Stripe\Model\Property;
 
-use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Type;
 
@@ -20,7 +19,7 @@ trait Capture
     /**
      * @var boolean
      *
-     * @Type("string")
+     * @Type("boolean")
      * @Groups({"ChargeCreate"})
      */
     private $capture = true;

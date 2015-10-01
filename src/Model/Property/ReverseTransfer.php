@@ -19,7 +19,7 @@ trait ReverseTransfer
     /**
      * @var boolean
      *
-     * @Type("string")
+     * @Type("boolean")
      * @Groups({"RefundCreate"})
      */
     private $reverseTransfer = false;

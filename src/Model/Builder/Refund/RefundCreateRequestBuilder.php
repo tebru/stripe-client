@@ -32,8 +32,8 @@ class RefundCreateRequestBuilder extends RequestBuilder
         $refund->setMetaData($this->getMetaData());
 
         $refundRequest = new RefundRequest();
-        $refundRequest->setRefundApplicationFee($this->shouldRefundApplicationFee());
-        $refundRequest->setReverseTransfer($this->shouldReverseTransfer());
+        $refundRequest->setRefundApplicationFee($this->isRefundApplicationFee());
+        $refundRequest->setReverseTransfer($this->isReverseTransfer());
 
         $refund->setRequest($refundRequest);
 
