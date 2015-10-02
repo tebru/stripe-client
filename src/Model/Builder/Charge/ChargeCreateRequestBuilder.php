@@ -46,6 +46,7 @@ class ChargeCreateRequestBuilder extends RequestBuilder
         $charge = new Charge();
         $charge->setAmount($this->getAmount());
         $charge->setCurrency($this->getCurrency());
+        $charge->setCustomerId($this->getCustomerId());
         $charge->setDescription($this->getDescription());
         $charge->setMetadata($this->getMetadata());
         $charge->setStatementDescriptor($this->getStatementDescriptor());
