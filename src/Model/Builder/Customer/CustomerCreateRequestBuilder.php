@@ -53,6 +53,7 @@ class CustomerCreateRequestBuilder extends RequestBuilder
             $customerRequest->setSourceId($source);
         } elseif ($source instanceof Card) {
             $customerRequest->setCardSource($source);
+        } elseif (null === $source) {
         } else {
             throw new LogicException('Source must be a string or Card object');
         }

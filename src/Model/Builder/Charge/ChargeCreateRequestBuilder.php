@@ -62,6 +62,7 @@ class ChargeCreateRequestBuilder extends RequestBuilder
             $chargeRequest->setSourceId($source);
         } elseif ($source instanceof Card) {
             $chargeRequest->setCardSource($source);
+        } elseif (null === $source) {
         } else {
             throw new LogicException('Source must be a string or Card object');
         }
