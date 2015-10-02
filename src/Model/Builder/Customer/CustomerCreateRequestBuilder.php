@@ -6,8 +6,10 @@
 
 namespace Tebru\Stripe\Model\Builder\Customer;
 
+use LogicException;
 use Tebru\Stripe\Model\Builder\Request\CustomerRequest;
 use Tebru\Stripe\Model\Builder\RequestBuilder;
+use Tebru\Stripe\Model\Card;
 use Tebru\Stripe\Model\Customer;
 use Tebru\Stripe\Model\Property;
 
@@ -27,7 +29,7 @@ class CustomerCreateRequestBuilder extends RequestBuilder
     use Property\PlanId;
     use Property\Quantity;
     use Property\ShippingObject;
-    use Property\Source;
+    use Property\GenericSource;
     use Property\TaxPercent;
     use Property\TrialEnd;
 
@@ -43,9 +45,17 @@ class CustomerCreateRequestBuilder extends RequestBuilder
         $customerRequest = new CustomerRequest();
         $customerRequest->setPlanId($this->getPlanId());
         $customerRequest->setQuantity($this->getQuantity());
-        $customerRequest->setSource($this->getSource());
         $customerRequest->setTaxPercent($this->getTaxPercent());
         $customerRequest->setTrialEnd($this->getTrialEnd());
+
+        $source = $this->getSource();
+        if (is_string($source)) {
+            $customerRequest->setSourceId($source);
+        } elseif ($source instanceof Card) {
+            $customerRequest->setCardSource($source);
+        } else {
+            throw new LogicException('Source must be a string or Card object');
+        }
 
         $customer->setRequest($customerRequest);
 

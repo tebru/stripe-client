@@ -6,16 +6,12 @@
 
 namespace Tebru\Stripe\Model\Builder\Customer;
 
+use LogicException;
 use Tebru\Stripe\Model\Builder\Request\CustomerRequest;
 use Tebru\Stripe\Model\Builder\RequestBuilder;
+use Tebru\Stripe\Model\Card;
 use Tebru\Stripe\Model\Customer;
-use Tebru\Stripe\Model\Property\AccountBalance;
-use Tebru\Stripe\Model\Property\DefaultSourceId;
-use Tebru\Stripe\Model\Property\Description;
-use Tebru\Stripe\Model\Property\Email;
-use Tebru\Stripe\Model\Property\Metadata;
-use Tebru\Stripe\Model\Property\ShippingObject;
-use Tebru\Stripe\Model\Property\Source;
+use Tebru\Stripe\Model\Property;
 
 /**
  * Class CustomerUpdateRequestBuilder
@@ -26,13 +22,13 @@ class CustomerUpdateRequestBuilder extends RequestBuilder
 {
     // todo coupon?
 
-    use AccountBalance;
-    use DefaultSourceId;
-    use Description;
-    use Email;
-    use Metadata;
-    use ShippingObject;
-    use Source;
+    use Property\AccountBalance;
+    use Property\DefaultSourceId;
+    use Property\Description;
+    use Property\Email;
+    use Property\Metadata;
+    use Property\ShippingObject;
+    use Property\GenericSource;
 
     public function build()
     {
@@ -45,7 +41,15 @@ class CustomerUpdateRequestBuilder extends RequestBuilder
         $customer->setShipping($this->getShipping());
 
         $customerRequest = new CustomerRequest();
-        $customerRequest->setSource($this->getSource());
+
+        $source = $this->getSource();
+        if (is_string($source)) {
+            $customerRequest->setSourceId($source);
+        } elseif ($source instanceof Card) {
+            $customerRequest->setCardSource($source);
+        } else {
+            throw new LogicException('Source must be a string or Card object');
+        }
 
         $customer->setRequest($customerRequest);
 

@@ -16,4 +16,6 @@ use Tebru\Stripe\Model\Property;
 class ChargeRequest
 {
     use Property\Capture;
+    use Property\CardSource;
+    use Property\SourceId;
 }

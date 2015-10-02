@@ -17,7 +17,8 @@ class CustomerRequest
 {
     use Property\PlanId;
     use Property\Quantity;
-    use Property\Source;
+    use Property\CardSource;
+    use Property\SourceId;
     use Property\TaxPercent;
     use Property\TrialEnd;
 }

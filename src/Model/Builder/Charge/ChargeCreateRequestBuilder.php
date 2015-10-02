@@ -6,9 +6,11 @@
 
 namespace Tebru\Stripe\Model\Builder\Charge;
 
+use LogicException;
 use Tebru;
 use Tebru\Stripe\Model\Builder\Request\ChargeRequest;
 use Tebru\Stripe\Model\Builder\RequestBuilder;
+use Tebru\Stripe\Model\Card;
 use Tebru\Stripe\Model\Charge;
 use Tebru\Stripe\Model\Property;
 
@@ -22,7 +24,7 @@ class ChargeCreateRequestBuilder extends RequestBuilder
     use Property\Amount;
     use Property\Currency;
     use Property\CustomerId;
-    use Property\Source;
+    use Property\GenericSource;
     use Property\Description;
     use Property\Metadata;
     use Property\Capture;
@@ -44,7 +46,6 @@ class ChargeCreateRequestBuilder extends RequestBuilder
         $charge = new Charge();
         $charge->setAmount($this->getAmount());
         $charge->setCurrency($this->getCurrency());
-        $charge->setSource($this->getSource());
         $charge->setDescription($this->getDescription());
         $charge->setMetadata($this->getMetadata());
         $charge->setStatementDescriptor($this->getStatementDescriptor());
@@ -55,6 +56,15 @@ class ChargeCreateRequestBuilder extends RequestBuilder
 
         $chargeRequest = new ChargeRequest();
         $chargeRequest->setCapture($this->isCapture());
+
+        $source = $this->getSource();
+        if (is_string($source)) {
+            $chargeRequest->setSourceId($source);
+        } elseif ($source instanceof Card) {
+            $chargeRequest->setCardSource($source);
+        } else {
+            throw new LogicException('Source must be a string or Card object');
+        }
 
         $charge->setRequest($chargeRequest);
 

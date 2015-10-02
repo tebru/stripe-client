@@ -6,13 +6,12 @@
 
 namespace Tebru\Stripe\Model\Builder\Card;
 
+use LogicException;
 use Tebru;
 use Tebru\Stripe\Model\Builder\Request\CardRequest;
 use Tebru\Stripe\Model\Builder\RequestBuilder;
 use Tebru\Stripe\Model\Card;
-use Tebru\Stripe\Model\Property\DefaultForCurrency;
-use Tebru\Stripe\Model\Property\Metadata;
-use Tebru\Stripe\Model\Property\Source;
+use Tebru\Stripe\Model\Property;
 
 /**
  * Class CardCreateRequestBuilder
@@ -21,9 +20,9 @@ use Tebru\Stripe\Model\Property\Source;
  */
 class CardCreateRequestBuilder extends RequestBuilder
 {
-    use Source;
-    use Metadata;
-    use DefaultForCurrency;
+    use Property\GenericSource;
+    use Property\Metadata;
+    use Property\DefaultForCurrency;
 
     public function build()
     {
@@ -34,7 +33,15 @@ class CardCreateRequestBuilder extends RequestBuilder
         $card->setDefaultForCurrency($this->getDefaultForCurrency());
 
         $cardRequest = new CardRequest();
-        $cardRequest->setSource($this->getSource());
+
+        $source = $this->getSource();
+        if (is_string($source)) {
+            $cardRequest->setSourceId($source);
+        } elseif ($source instanceof Card) {
+            $cardRequest->setCardSource($source);
+        } else {
+            throw new LogicException('Source must be a string or Card object');
+        }
 
         $card->setRequest($cardRequest);
 

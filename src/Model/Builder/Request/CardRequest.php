@@ -17,5 +17,6 @@ class CardRequest
 {
     use Property\Number;
     use Property\Cvc;
-    use Property\Source;
+    use Property\CardSource;
+    use Property\SourceId;
 }

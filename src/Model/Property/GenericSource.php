@@ -1,30 +1,27 @@
 <?php
 /*
  * Copyright (c) 2015 Nate Brunette.
- * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ * Distributed under the MIT License (http://opengenericSource.org/licenses/MIT)
  */
 
 namespace Tebru\Stripe\Model\Property;
 
-use JMS\Serializer\Annotation\Type;
 use Tebru\Stripe\Model\Card;
 
 /**
- * Trait Source
+ * Trait GenericSource
  *
  * @author Nate Brunette <n@tebru.net>
  */
-trait Source
+trait GenericSource
 {
     /**
-     * @var Card
-     *
-     * @Type("Tebru\Stripe\Model\Card")
+     * @var string
      */
     private $source;
 
     /**
-     * @return Card
+     * @return Card|string
      */
     public function getSource()
     {
@@ -32,10 +29,10 @@ trait Source
     }
 
     /**
-     * @param Card $source
+     * @param Card|string $source
      * @return $this
      */
-    public function setSource(Card $source)
+    public function setSource($source)
     {
         $this->source = $source;
 
