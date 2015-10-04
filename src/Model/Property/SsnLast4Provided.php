@@ -6,6 +6,7 @@
 
 namespace Tebru\Stripe\Model\Property;
 
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
 /**
@@ -19,6 +20,7 @@ trait SsnLast4Provided
      * @var bool
      *
      * @Type("boolean")
+     * @SerializedName("ssn_last_4_provided")
      */
     private $ssnLast4Provided;
 

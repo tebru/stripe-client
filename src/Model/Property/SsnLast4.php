@@ -7,6 +7,7 @@
 namespace Tebru\Stripe\Model\Property;
 
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
 /**
@@ -21,6 +22,7 @@ trait SsnLast4
      *
      * @Type("string")
      * @Groups({"LegalEntity"})
+     * @SerializedName("ssn_last_4")
      */
     private $ssnLast4;
 

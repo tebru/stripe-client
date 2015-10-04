@@ -35,6 +35,7 @@ class LegalEntityBuilder extends RequestBuilder
     public function build()
     {
         $legalEntity = new LegalEntity();
+        $legalEntity->setType($this->getType());
         $legalEntity->setAddress($this->getAddress());
         $legalEntity->setBusinessName($this->getBusinessName());
         $legalEntity->setDob($this->getDob());

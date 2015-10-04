@@ -30,6 +30,10 @@ class AccountCreateRequestBuilder extends RequestBuilder
             Tebru\assertThat(null !== $this->getEmail(), 'If managed is false, email must be set');
         }
 
+        if (null === $this->getCountry()) {
+            $this->setCountry('US');
+        }
+
         $account = new Account();
         $account->setManaged($this->isManaged());
         $account->setCountry($this->getCountry());
